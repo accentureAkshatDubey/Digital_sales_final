@@ -71,7 +71,7 @@ inputPorts:
         secretKey: abc
       dataProductUrn: urn:dv:dataproduct:b5b29d5a-edb2-47f1-8818-d83b9f80e675
     tableName: select * from
-      glue.***catalogReference***.b5b29d5a-edb2-47f1-8818-d83b9f80e675
+      glue.msil_transformed_layer.Accessories_Sales
   - alias: Parts_Sales_1
     isDynamic: true
     dataProductUrn: urn:dv:dataproduct:599461a7-e7b4-47da-8b69-fe0e44e823b5
