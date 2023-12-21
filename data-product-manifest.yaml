@@ -1,10 +1,10 @@
-version: 0.0.12
+version: 0.0.13
 jobId: "787"
-jobName: Digital_sales
+jobName: Parts_and_Accessories_Digital_Sales_Report
 jobType: Aggregated Data Product
 alias: Ingesting_data_into_digital_sales
 discoveryPort:
-  name: Digital_sales
+  name: Parts_and_Accessories_Digital_Sales_Report
 inputPorts:
   - alias: Geography_Master_1
     isDynamic: true
@@ -71,7 +71,7 @@ inputPorts:
         secretKey: abc
       dataProductUrn: urn:dv:dataproduct:b5b29d5a-edb2-47f1-8818-d83b9f80e675
     tableName: select * from
-      glue.msil_transformed_layer.Accessories_Sales
+      glue.***catalogReference***.b5b29d5a-edb2-47f1-8818-d83b9f80e675
   - alias: Parts_Sales_1
     isDynamic: true
     dataProductUrn: urn:dv:dataproduct:599461a7-e7b4-47da-8b69-fe0e44e823b5
