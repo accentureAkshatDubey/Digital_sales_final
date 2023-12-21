@@ -1,0 +1,353 @@
+version: 0.0.11
+jobId: "787"
+jobName: Digital_sales
+jobType: Aggregated Data Product
+alias: Ingesting_data_into_digital_sales
+discoveryPort:
+  name: Digital_sales
+inputPorts:
+  - alias: Geography_Master_1
+    isDynamic: true
+    dataProductUrn: urn:dv:dataproduct:53e98ba0-c6f7-4a2f-9d78-0b8a4eefdf71
+    projection: ""
+    filter: ""
+    warehousePath: "***s3StateBucket***"
+    type: readDataIceberg
+    catalogName: glue
+    optional:
+      persistDataFrame: false
+      advanceOptions:
+        endPoint: s3.undefined.amazonaws.com
+        accessKey: abc
+        secretKey: abc
+      dataProductUrn: urn:dv:dataproduct:53e98ba0-c6f7-4a2f-9d78-0b8a4eefdf71
+    tableName: select * from glue.msil_transformed_layer.Geography_Master
+  - alias: Dealer_Master_1
+    isDynamic: true
+    dataProductUrn: urn:dv:dataproduct:54ddeeb9-ff9a-4d57-8fbc-afafa0d45fe9
+    projection: ""
+    filter: ""
+    warehousePath: "***s3StateBucket***"
+    type: readDataIceberg
+    catalogName: glue
+    optional:
+      persistDataFrame: false
+      advanceOptions:
+        endPoint: s3.undefined.amazonaws.com
+        accessKey: abc
+        secretKey: abc
+      dataProductUrn: urn:dv:dataproduct:54ddeeb9-ff9a-4d57-8fbc-afafa0d45fe9
+    tableName: select * from glue.msil_transformed_layer.Dealer_Master
+  - alias: Parts_Accessories_Master_1
+    isDynamic: true
+    dataProductUrn: urn:dv:dataproduct:0be1464a-0830-4d11-990a-8a5b057c1b63
+    projection: ""
+    filter: ""
+    warehousePath: "***s3StateBucket***"
+    type: readDataIceberg
+    catalogName: glue
+    optional:
+      persistDataFrame: false
+      advanceOptions:
+        endPoint: s3.undefined.amazonaws.com
+        accessKey: abc
+        secretKey: abc
+      dataProductUrn: urn:dv:dataproduct:0be1464a-0830-4d11-990a-8a5b057c1b63
+    tableName: select * from
+      glue.***catalogReference***.0be1464a-0830-4d11-990a-8a5b057c1b63
+  - alias: Accessories_Sales_1
+    isDynamic: true
+    dataProductUrn: urn:dv:dataproduct:b5b29d5a-edb2-47f1-8818-d83b9f80e675
+    projection: ""
+    filter: ""
+    warehousePath: "***s3StateBucket***"
+    type: readDataIceberg
+    catalogName: glue
+    optional:
+      persistDataFrame: false
+      advanceOptions:
+        endPoint: s3.undefined.amazonaws.com
+        accessKey: abc
+        secretKey: abc
+      dataProductUrn: urn:dv:dataproduct:b5b29d5a-edb2-47f1-8818-d83b9f80e675
+    tableName: select * from
+      glue.***catalogReference***.b5b29d5a-edb2-47f1-8818-d83b9f80e675
+  - alias: Parts_Sales_1
+    isDynamic: true
+    dataProductUrn: urn:dv:dataproduct:599461a7-e7b4-47da-8b69-fe0e44e823b5
+    projection: ""
+    filter: ""
+    warehousePath: "***s3StateBucket***"
+    type: readDataIceberg
+    catalogName: glue
+    optional:
+      persistDataFrame: false
+      advanceOptions:
+        endPoint: s3.undefined.amazonaws.com
+        accessKey: abc
+        secretKey: abc
+      dataProductUrn: urn:dv:dataproduct:599461a7-e7b4-47da-8b69-fe0e44e823b5
+    tableName: select * from glue.msil_transformed_layer.Parts_Sales
+productState:
+  isDynamic: true
+  alias: Ingesting_data_into_digital_sales
+  retentionVersions: ""
+  logicalSchema:
+    properties: {}
+  stateStoreType: loadDataIceberg
+  isProfilingEnabled: false
+  updateStrategy: Overwrite
+  tableName: msil_transformed_layer.Parts_and_Accessories_Digital_Sales_Report
+  warehousePath: s3://dlp-platform-engine-bucket/
+  catalogName: glue
+  optional:
+    persistDataFrame: false
+    enableDataReconciliation: false
+    enforceSchema: false
+    enforceSchemaMethod: Warning
+    catalogType: glue
+    loggingOptions:
+      printSchema: true
+      count: true
+      showData: true
+  refreshInterval: 0 10 * * *
+transformation:
+  - alias: MSGA
+    type: SQL
+    description: tranformation logic for MSGA
+    query: "select SUM(MRP) AS MRP_1,    SUM(ITEM_VALUE) AS
+      ITEM_VALUE,   location_description,   region_code,   state_code,   status\
+      ,   enq_status,   city,   category_description,   list_description,   enq\
+      uiry_orderreadiness_date,   link_part_enquiry,   parent_group,   dealer_m\
+      ap_code,   location_code,   short_enq_no,   CUSTOMER_NAME,   CUSTOMER_STA\
+      TE,   state,    source_of_enquiry,    customer_remarks,    mode_of_enquir\
+      y,    invoice_number,    for_code,    region,    dealer_name,    dealer_c\
+      ode,    invoice_date,    enquiry_number,    enquiry_date,   Parts_First_F\
+      ollowup_Date,   part_number,   current_timestamp() as
+      etl_inserted_date,    current_timestamp() as
+      etl_modified_date,    'platform_admin' as
+      etl_created_by,    'platform_admin' as
+      etl_updated_by  from    (     select PAM.MRP AS MRP,        ACC.ITEM_VALUE
+      AS ITEM_VALUE,        IG.state_name as state,        acc.Enquiry_Source AS
+      source_of_enquiry,        ACC.Customer_Remarks AS
+      customer_remarks,        acc.Mode_Of_Enquiry AS
+      mode_of_enquiry,        acc.Invoice_Number_ph_enq AS
+      invoice_number,        DM.FOR_CODE AS for_code,        IG.region_name AS
+      region,        DM.DEALER_NAME AS dealer_name,        DM.MUL_DEALER_Code AS
+      dealer_code,        CAST(acc.Invoice_Date_ph_enq AS DATE) AS
+      invoice_date,     acc.Status AS status,    acc.Enquiry_Status AS
+      enq_status,    '' as city,    acc.part_category as
+      part_category,    acc.Parts_First_Followup_Date AS
+      Parts_First_Followup_Date,    Product_Category as
+      category_description,    header_status as
+      list_description,       Order_Readiness_Date AS
+      enquiry_orderreadiness_date,       concat(Parent_Group_ph_enq,'|',cast(De\
+      aler_Map_Code_ph_enq as
+      string),'|',Location_Code_ph_enq,'|',Enquiry_Number_ph_enq) as
+      link_part_enquiry,       ACC.Enquiry_Number_ph_enq AS
+      enquiry_number,        CAST(ACC.Enquiry_Date AS DATE) AS
+      enquiry_date,    SUBSTR(Enquiry_Number_ph_enq,3) as
+      short_enq_no,    ACC.Customer_State AS
+      CUSTOMER_STATE,    Parent_Group_ph_enq as
+      parent_group,    Dealer_Map_Code_ph_enq as
+      dealer_map_code,    Location_Code_ph_enq as
+      location_code,    PAM.Part_Number as part_number,    PAM.Part_Description
+      AS PART_DESCRIPTION,    IG.REGION_CODE AS REGION_CODE,    IG.STATE_CODE AS
+      STATE_CODE,    DM.location_description as
+      LOCATION_DESCRIPTION,    ACC.Customer_Name AS
+      CUSTOMER_NAME,    ACC.Parts_Enquiry_Quantity as
+      part_quantity     from        accessories_sales acc       inner join
+      (select distinct Part_Number,
+      Part_Description,MRP,parent_group,dealer_map_code,location_code from
+      parts_accessories_master where Part_Category<>'U' and PRINCIPAL_MAP_Code =
+      1) pam on acc.Part_Number_pd_enq = pam.Part_Number    and
+      acc.Parent_Group_ph_enq = pam.parent_group and acc.Dealer_Map_Code_ph_enq
+      = pam.dealer_map_code and acc.Location_Code_ph_enq =
+      pam.location_code       left JOIN (SELECT distinct * FROM Dealer_Master
+      WHERE PARENT_GROUP<>'99999' AND DEALER_MAP_CODE<>99999 AND
+      LOCATION_CODE<>'999' AND PRINCIPAL_MAP_CD = 1) DM on
+      concat(         acc.Parent_Group_ph_enq,          '|',          cast(           \
+      acc.Dealer_Map_Code_ph_enq as
+      string         ),          '|',          acc.Location_Code_ph_enq       )=
+      concat(         DM.PARENT_GROUP,          '|',          cast(DM.dealer_ma\
+      p_code as
+      string),          '|',          DM.location_code       )        left join
+      (         select distinct
+      state_name,            region_name,            state_code,            reg\
+      ion_code          from            geography_master       ) ig on
+      TRIM(acc.Customer_State)= TRIM(ig.STATE_CODE)        AND DM.region_code =
+      IG.REGION_CODE    ) GROUP
+      BY    location_description,   region_code,   state_code,   status,   enq_\
+      status,   city,   category_description,   list_description,   enquiry_ord\
+      erreadiness_date,   link_part_enquiry,   parent_group,   dealer_map_code,   \
+      location_code,   short_enq_no,   CUSTOMER_NAME,   CUSTOMER_STATE,   state\
+      ,    source_of_enquiry,    customer_remarks,    mode_of_enquiry,    invoi\
+      ce_number,    for_code,    region,    dealer_name,    dealer_code,    inv\
+      oice_date,    enquiry_number,    enquiry_date,   etl_inserted_date,    et\
+      l_modified_date,    etl_created_by,    etl_updated_by "
+    sequenceNo: 5
+    references:
+      - alias: Dealer_Master_1
+        sqlReference: dealer_master
+      - alias: Geography_Master_1
+        sqlReference: geography_master
+      - alias: Accessories_Sales_1
+        sqlReference: accessories_sales
+      - alias: Parts_Accessories_Master_1
+        sqlReference: parts_accessories_master
+  - alias: MSGP
+    type: SQL
+    description: MSGP query
+    query: "select    SUM(     Billed_Quantity * Selling_Price -(Selling_Price *
+      Return_Quantity)   ) AS NET_RETAIL_SELLING,    SUM(     ITEM_VALUE
+      -(       Return_Quantity *(ITEM_VALUE / Billed_Quantity)     )   ) as
+      INVOICE_AMOUNT,    sum(Billed_Quantity)- sum(Return_Quantity) as
+      NET_RETAIL_QUANTITY,    source_of_enquiry,    mode_of_enquiry,    Invoice\
+      _number,    Enq_Customer_Name,    Customer_order_date,    Part_number,    \
+      parts_quantity,   Customer_id,    Customer_pin,    Enquiry_number,    Enq\
+      uiry_date,    Invoice_Month,    Location_description,    Location_code,    \
+      Dealer_Name,    DEALER_MAP_CD,    Part_category,    Root_part,    Part_De\
+      scription,    Region,    State,    City,    State_code,    Enquiry_status\
+      ,    Parent_group,    Short_enquiry_number,    CUSTOMER_STATE,    Custome\
+      r_remarks,    For_code,    Dealer_code,    Invoice_date,    Sale_type,    \
+      Customer_order_number,    Company_FA,    Document_type,    Document_numbe\
+      r,    Reference_Document_Number,    Parts_LMS_Date,    Document_Date,   e\
+      tl_inserted_date,    etl_modified_date,    etl_created_by,    etl_updated\
+      _by   from    (     select        cast(ps.Billed_Quantity as float) as
+      Billed_Quantity,        coalesce(         cast(ps.Selling_Price as
+      float),          0.0       ) as
+      Selling_Price,        coalesce(         cast(ps.Return_Quantity as
+      float),          0.0       ) as
+      Return_Quantity,        coalesce(         cast(ps.ITEM_VALUE as
+      float),          0.0       ) as ITEM_VALUE,        ps.Enquiry_Source AS
+      source_of_enquiry,        ps.Mode_Of_Enquiry AS
+      mode_of_enquiry,        ps.Invoice_Number AS
+      invoice_number,        Concat_ws(         ' ', ps.Customer_First_Name,
+      ps.Customer_Middle_Name,          ps.Customer_Last_Name       ) AS
+      Enq_Customer_Name,        ps.Customer_Order_Date as
+      Customer_order_date,        ps.Part_Number_pd_enq as
+      Part_number,    ps.part_qty as parts_quantity,       ps.Customer_ID as
+      customer_id,        ps.Customer_PIN as
+      customer_pin,        ps.Enquiry_Number AS
+      enquiry_number,        ps.Enquiry_Date AS
+      enquiry_date,        date_format(ps.Enquiry_Date, 'MM') as
+      Invoice_Month,        DM.location_description as
+      location_description,        DM.Location_code as
+      location_code,        DM.Dealer_Name as
+      Dealer_Name,        DM.DEALER_MAP_Code as
+      DEALER_MAP_CD,        pam.Part_Category as
+      part_category,        pam.Root_Part_Number as
+      root_part,        pam.Part_Description as
+      Part_Description,        IG.REGION_CODE as region,        IG.state_name as
+      state,        ps.Customer_City as city,        IG.state_code as
+      state_code,        ps.enquiry_status as
+      Enquiry_status,        Parent_Group_ph_enq as
+      parent_group,        left(ps.Enquiry_Number,3) as
+      Short_enquiry_number,        ps.customer_state as
+      CUSTOMER_STATE,        ps.customer_remarks as
+      customer_remarks,        DM.FOR_CODE as
+      for_code,        DM.MUL_DEALER_Code as dealer_code,        PS.invoice_date
+      as invoice_date,        ps.sale_type as
+      sale_type,        ps.customer_order_number as
+      customer_order_number,        ps.Company_FA_ph_issue AS
+      Company_FA,        ps.document_type_ph_issue as
+      Document_type,        ps.Document_Number_ph_issue as
+      Document_number,        ps.Reference_Document_Number as
+      Reference_Document_Number,        ps.Parts_LMS_Date as
+      Parts_LMS_Date,        PS.Document_Date AS
+      Document_Date,    current_timestamp() as
+      etl_inserted_date,        current_timestamp() as
+      etl_modified_date,        'platform_admin' as
+      etl_created_by,        'platform_admin' as
+      etl_updated_by           from        PARTS_SALES ps        inner JOIN
+      (         select            distinct
+      Part_Number,            Part_Category,            Root_Part_Number,            \
+      Part_Description,            Principal_Map_Code,            Dealer_Map_Co\
+      de          from            parts_accessories_master          where            \
+      Part_Category <> 'U'            and Principal_Map_Code = 1            and
+      DEALER_MAP_CODE = 1       ) pam on trim(ps.Part_Number_pd_issue) =
+      trim(pam.Part_Number)        left JOIN
+      (         SELECT            DISTINCT
+      *          FROM            Dealer_Master          WHERE            PARENT\
+      _GROUP <> '99999'            AND DEALER_MAP_CODE <> 99999            AND
+      LOCATION_CODE <> '999'            AND PRINCIPAL_MAP_CD = 1       ) DM on
+      concat(         ps.Parent_Group_ph_enq,          '|',          cast(           \
+      ps.Dealer_Map_Code_ph_enq as
+      string         ),          '|',          ps.Location_Code_ph_enq       ) =
+      concat(         DM.PARENT_GROUP,          '|',          cast(DM.DEALER_MA\
+      P_Code as
+      string),          '|',          DM.Location_Code       )        left join
+      (         select            distinct
+      state_name,            region_name,            state_code,            reg\
+      ion_code          from            geography_master       ) ig on
+      TRIM(ps.Customer_State)= TRIM(ig.STATE_CODE)        AND DM.region_code =
+      IG.REGION_CODE   )  group
+      by    source_of_enquiry,    mode_of_enquiry,    Invoice_number,    Enq_Cu\
+      stomer_Name,    Customer_order_date,    Part_number,    parts_quantity,   \
+      Customer_id,    Customer_pin,    Enquiry_number,    Enquiry_date,    Invo\
+      ice_Month,    Location_description,    Location_code,    Dealer_Name,    \
+      DEALER_MAP_CD,    Part_category,    Root_part,    Part_Description,    Re\
+      gion,    State,    City,    State_code,    Enquiry_status,    Parent_grou\
+      p,    Short_enquiry_number,    CUSTOMER_STATE,    Customer_remarks,    Fo\
+      r_code,    Dealer_code,    Invoice_date,    Sale_type,    Customer_order_\
+      number,    Company_FA,    Document_type,    Document_number,    Reference\
+      _Document_Number,    Parts_LMS_Date,    Document_Date,   etl_inserted_dat\
+      e,    etl_modified_date,    etl_created_by,    etl_updated_by "
+    sequenceNo: 7
+    references:
+      - alias: Parts_Sales_1
+        sqlReference: PARTS_SALES
+      - alias: Parts_Accessories_Master_1
+        sqlReference: Parts_Accessories_Master
+      - alias: Dealer_Master_1
+        sqlReference: Dealer_Master
+  - alias: Spark_SQL_3
+    type: SQL
+    description: msga and msgp union query
+    query: select  Enquiry_Number, Enquiry_Date, Source_of_Enquiry, Mode_of_Enquiry,
+      Enq_Customer_Name, Region, State, City, Dealer_name, Dealer_Code,
+      FOR_Code, part_number as Part_Number_Enquired, part_category as
+      Product_Category_Code, customer_remarks as Remarks, '' as Date_of_Sale,
+      Invoice_Number, '' as Next_Follow_up_Date, status as
+      Assigned_To_Line_Wise_Status, '' as Next_Followup_Plan, Part_Description,
+      part_quantity as Quantity, '' as Model, Location_Code, '' as
+      Next_Followup_Action, enquiry_orderreadiness_date as Order_Readiness_Date,
+      Parts_First_Followup_Date, location_description, count(enquiry_number) as
+      No_of_Enquiry, Header_status, MRP_1 as Value_of_Enquiry_at_MRP, 0.0 as
+      Value_of_Enquiry_at_DDL, ITEM_VALUE as Value_of_Sale_at_MRP, 0.0 as
+      Value_of_Sale_at_DDL from ( select    0.0 as NET_RETAIL_SELLING,    0.0 as
+      INVOICE_AMOUNT,    0.0
+      NET_RETAIL_QUANTITY,    MRP_1,    ITEM_VALUE,    source_of_enquiry,    mode_of_enquiry,    invoice_number,    CUSTOMER_NAME
+      as Enq_Customer_Name,    cast(0 as date) as
+      CUST_ORD_DATE,    part_number,    '' as customer_id,    '' as
+      customer_pin,    enquiry_number,    enquiry_date,    enq_status as
+      enquiry_status,    month(invoice_date) as
+      Invoice_Month,    location_description,    location_code,    dealer_name,    dealer_map_code,    part_category,    ''
+      as root_part,    PART_DESCRIPTION as
+      part_description,    region,    state,    city,    state_code,    status,    Parts_First_Followup_Date,    category_description,    list_description,    enquiry_orderreadiness_date,    link_part_enquiry,    parent_group,    short_enq_no,    CUSTOMER_STATE,    customer_remarks,    for_code,    dealer_code,    invoice_date,     part_quantity,    'MSGA'
+      as Flag  from    msga_report  union select    distinct
+      NET_RETAIL_SELLING,    INVOICE_AMOUNT,    NET_RETAIL_QUANTITY,    0.0 as
+      MRP_1,    0.0 as
+      ITEM_VALUE,    source_of_enquiry,    mode_of_enquiry,    invoice_number,    Enq_Customer_Name,    Customer_order_date,    part_number,    customer_id,    customer_pin,    enquiry_number,    enquiry_date,    enquiry_status,    Invoice_Month,    location_description,    location_code,    Dealer_Name,   DEALER_MAP_CD,    part_category,    root_part,    Part_Description,    region,    state,    city,    state_code,    ''
+      as status,    Parts_LMS_Date as part_lms_date,    '' as
+      category_description,    '' as list_description,    cast('' as date) as
+      enquiry_orderreadiness_date,    '' as
+      link_part_enquiry,    parent_group,    Short_enquiry_number,    CUSTOMER_STATE,    customer_remarks,    for_code,    dealer_code,    invoice_date,    part_quantity,    'MSGP'
+      as Flag  from    adp_msgp_report )
+    sequenceNo: 8
+    references:
+      - alias: MSGA
+        sqlReference: MSGA
+      - alias: MSGP
+        sqlReference: MSGP
+controlPort:
+  dataQualityRules:
+    RecordCountCheck:
+      productState:
+        expression: ">="
+        number: 1
+        referenceAlias: Ingesting_data_into_digital_sales
+outputPort:
+  subscriptionChannels:
+    - channelType: Postgres
+      queryType: SQL
