@@ -54,7 +54,7 @@ inputPorts:
         secretKey: abc
       dataProductUrn: urn:dv:dataproduct:0be1464a-0830-4d11-990a-8a5b057c1b63
     tableName: select * from
-      glue.***catalogReference***.0be1464a-0830-4d11-990a-8a5b057c1b63
+      glue.***catalogReference***.`0be1464a-0830-4d11-990a-8a5b057c1b63`
   - alias: Accessories_Sales_1
     isDynamic: true
     dataProductUrn: urn:dv:dataproduct:b5b29d5a-edb2-47f1-8818-d83b9f80e675
