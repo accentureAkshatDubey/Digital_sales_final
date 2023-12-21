@@ -183,7 +183,8 @@ transformation:
       location_code,   short_enq_no,   CUSTOMER_NAME,   CUSTOMER_STATE,   state\
       ,    source_of_enquiry,    customer_remarks,    mode_of_enquiry,    invoi\
       ce_number,    for_code,    region,    dealer_name,    dealer_code,    inv\
-      oice_date,    enquiry_number,    enquiry_date,   etl_inserted_date,    et\
+      oice_date,    enquiry_number,    enquiry_date, Parts_First_Followup_Date, 
+      part_number, PART_DESCRIPTION ,part_quantity,  etl_inserted_date,    et\
       l_modified_date,    etl_created_by,    etl_updated_by "
     sequenceNo: 5
     references:
