@@ -1,4 +1,4 @@
-version: 0.0.19
+version: 0.0.20
 jobId: "787"
 jobName: Parts_and_Accessories_Digital_Sales_Report
 jobType: Aggregated Data Product
@@ -263,12 +263,15 @@ transformation:
       etl_created_by,        'platform_admin' as
       etl_updated_by           from        PARTS_SALES ps        inner JOIN
       (         select            distinct
-      Part_Number,            Part_Category,            Root_Part_Number,            \
-      Part_Description,            Principal_Map_Code,            Dealer_Map_Co\
-      de          from            parts_accessories_master          where            \
-      Part_Category <> 'U'            and Principal_Map_Code = 1            and
-      DEALER_MAP_CODE = 1       ) pam on trim(ps.Part_Number_pd_issue) =
-      trim(pam.Part_Number)        left JOIN
+      Part_Number,            Part_Category,            parent_group,           \
+      Root_Part_Number,            Part_Description,            Principal_Map_C\
+      ode,            Dealer_Map_Code
+      ,           location_code         from            parts_accessories_maste\
+      r          where            Part_Category <> 'U'            and
+      Principal_Map_Code = 1        ) pam on trim(ps.Part_Number_pd_issue) =
+      trim(pam.Part_Number) and ps.Parent_Group_ph_enq = pam.parent_group and
+      ps.Dealer_Map_Code_ph_enq = pam.dealer_map_code and
+      ps.Location_Code_ph_enq = pam.location_code       left JOIN
       (         SELECT            DISTINCT
       *          FROM            Dealer_Master          WHERE            PARENT\
       _GROUP <> '99999'            AND DEALER_MAP_CODE <> 99999            AND
