@@ -1,4 +1,4 @@
-version: 0.0.13
+version: 0.0.14
 jobId: "787"
 jobName: Parts_and_Accessories_Digital_Sales_Report
 jobType: Aggregated Data Product
@@ -54,7 +54,7 @@ inputPorts:
         secretKey: abc
       dataProductUrn: urn:dv:dataproduct:0be1464a-0830-4d11-990a-8a5b057c1b63
     tableName: select * from
-      glue.msil_transformed_layer.parts_accessories_master
+      glue.***catalogReference***.0be1464a-0830-4d11-990a-8a5b057c1b63
   - alias: Accessories_Sales_1
     isDynamic: true
     dataProductUrn: urn:dv:dataproduct:b5b29d5a-edb2-47f1-8818-d83b9f80e675
@@ -71,7 +71,7 @@ inputPorts:
         secretKey: abc
       dataProductUrn: urn:dv:dataproduct:b5b29d5a-edb2-47f1-8818-d83b9f80e675
     tableName: select * from
-      glue.msil_transformed_layer.Accessories_Sales
+      glue.***catalogReference***.b5b29d5a-edb2-47f1-8818-d83b9f80e675
   - alias: Parts_Sales_1
     isDynamic: true
     dataProductUrn: urn:dv:dataproduct:599461a7-e7b4-47da-8b69-fe0e44e823b5
@@ -312,13 +312,13 @@ transformation:
       Assigned_To_Line_Wise_Status, '' as Next_Followup_Plan, Part_Description,
       part_quantity as Quantity, '' as Model, Location_Code, '' as
       Next_Followup_Action, enquiry_orderreadiness_date as Order_Readiness_Date,
-      Parts_First_Followup_Date, location_description, count(enquiry_number) as
-      No_of_Enquiry, Header_status, MRP_1 as Value_of_Enquiry_at_MRP, 0.0 as
+      Parts_First_Followup_Date, location_description, '' as No_of_Enquiry,
+      Header_status, MRP_1 as Value_of_Enquiry_at_MRP, 0.0 as
       Value_of_Enquiry_at_DDL, ITEM_VALUE as Value_of_Sale_at_MRP, 0.0 as
       Value_of_Sale_at_DDL from ( select    0.0 as NET_RETAIL_SELLING,    0.0 as
       INVOICE_AMOUNT,    0.0
       NET_RETAIL_QUANTITY,    MRP_1,    ITEM_VALUE,    source_of_enquiry,    mode_of_enquiry,    invoice_number,    CUSTOMER_NAME
-      as Enq_Customer_Name,    cast(0 as date) as
+      as Enq_Customer_Name,    cast('' as date) as
       CUST_ORD_DATE,    part_number,    '' as customer_id,    '' as
       customer_pin,    enquiry_number,    enquiry_date,    enq_status as
       enquiry_status,    month(invoice_date) as
@@ -333,7 +333,7 @@ transformation:
       category_description,    '' as list_description,    cast('' as date) as
       enquiry_orderreadiness_date,    '' as
       link_part_enquiry,    parent_group,    Short_enquiry_number,    CUSTOMER_STATE,    customer_remarks,    for_code,    dealer_code,    invoice_date,    part_quantity,    'MSGP'
-      as Flag  from    adp_msgp_report )
+      as Flag  from    adp_msgp_report   )
     sequenceNo: 8
     references:
       - alias: MSGA
