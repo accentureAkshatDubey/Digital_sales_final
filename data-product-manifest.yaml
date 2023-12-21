@@ -1,4 +1,4 @@
-version: 0.0.17
+version: 0.0.18
 jobId: "787"
 jobName: Parts_and_Accessories_Digital_Sales_Report
 jobType: Aggregated Data Product
@@ -304,6 +304,8 @@ transformation:
         sqlReference: Parts_Accessories_Master
       - alias: Dealer_Master_1
         sqlReference: Dealer_Master
+      - alias: Geography_Master_1
+        sqlReference: geography_master
   - alias: Spark_SQL_3
     type: SQL
     description: msga and msgp union query
