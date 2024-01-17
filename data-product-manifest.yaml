@@ -1,4 +1,4 @@
-version: 0.0.26
+version: 0.0.31
 jobId: "787"
 jobName: Parts_and_Accessories_Digital_Sales_Report
 jobType: Aggregated Data Product
@@ -6,86 +6,46 @@ alias: Ingesting_data_into_digital_sales
 discoveryPort:
   name: Parts_and_Accessories_Digital_Sales_Report
 inputPorts:
-  - alias: Geography_Master_1
-    isDynamic: true
-    dataProductUrn: urn:dv:dataproduct:53e98ba0-c6f7-4a2f-9d78-0b8a4eefdf71
-    projection: ""
-    filter: ""
-    warehousePath: "***s3StateBucket***"
-    type: readDataIceberg
-    catalogName: glue
-    optional:
-      persistDataFrame: false
-      advanceOptions:
-        endPoint: s3.undefined.amazonaws.com
-        accessKey: abc
-        secretKey: abc
-      dataProductUrn: urn:dv:dataproduct:53e98ba0-c6f7-4a2f-9d78-0b8a4eefdf71
-    tableName: select * from glue.msil_transformed_layer.Geography_Master
   - alias: Dealer_Master_1
     isDynamic: true
     dataProductUrn: urn:dv:dataproduct:54ddeeb9-ff9a-4d57-8fbc-afafa0d45fe9
-    projection: ""
     filter: ""
-    warehousePath: "***s3StateBucket***"
-    type: readDataIceberg
-    catalogName: glue
+    projection: ""
     optional:
       persistDataFrame: false
-      advanceOptions:
-        endPoint: s3.undefined.amazonaws.com
-        accessKey: abc
-        secretKey: abc
-      dataProductUrn: urn:dv:dataproduct:54ddeeb9-ff9a-4d57-8fbc-afafa0d45fe9
-    tableName: select * from glue.msil_transformed_layer.Dealer_Master
+    type: dataproduct
   - alias: Parts_Sales_1
     isDynamic: true
     dataProductUrn: urn:dv:dataproduct:599461a7-e7b4-47da-8b69-fe0e44e823b5
-    projection: ""
     filter: ""
-    warehousePath: "***s3StateBucket***"
-    type: readDataIceberg
-    catalogName: glue
+    projection: ""
     optional:
       persistDataFrame: false
-      advanceOptions:
-        endPoint: s3.undefined.amazonaws.com
-        accessKey: abc
-        secretKey: abc
-      dataProductUrn: urn:dv:dataproduct:599461a7-e7b4-47da-8b69-fe0e44e823b5
-    tableName: select * from glue.msil_transformed_layer.Parts_Sales
+    type: dataproduct
   - alias: Accessories_Sales_1
     isDynamic: true
     dataProductUrn: urn:dv:dataproduct:96ba6127-9f31-4e04-b659-f70c26795685
-    projection: ""
     filter: ""
-    warehousePath: "***s3StateBucket***"
-    type: readDataIceberg
-    catalogName: glue
+    projection: ""
     optional:
       persistDataFrame: false
-      advanceOptions:
-        endPoint: s3.undefined.amazonaws.com
-        accessKey: abc
-        secretKey: abc
-      dataProductUrn: urn:dv:dataproduct:96ba6127-9f31-4e04-b659-f70c26795685
-    tableName: select * from glue.msil_transformed_layer.Accessories_Sales
+    type: dataproduct
   - alias: Parts_Accessories_Master_1
     isDynamic: true
     dataProductUrn: urn:dv:dataproduct:3ace113a-e949-4884-8b02-e1caddfcc28b
-    projection: ""
     filter: ""
-    warehousePath: "***s3StateBucket***"
-    type: readDataIceberg
-    catalogName: glue
+    projection: ""
     optional:
       persistDataFrame: false
-      advanceOptions:
-        endPoint: s3.undefined.amazonaws.com
-        accessKey: abc
-        secretKey: abc
-      dataProductUrn: urn:dv:dataproduct:3ace113a-e949-4884-8b02-e1caddfcc28b
-    tableName: select * from glue.msil_transformed_layer.Parts_Accessories_Master
+    type: dataproduct
+  - alias: Geography_Master_1
+    isDynamic: true
+    dataProductUrn: urn:dv:dataproduct:53e98ba0-c6f7-4a2f-9d78-0b8a4eefdf71
+    filter: ""
+    projection: ""
+    optional:
+      persistDataFrame: false
+    type: dataproduct
 productState:
   isDynamic: true
   alias: Ingesting_data_into_digital_sales
@@ -95,8 +55,8 @@ productState:
   stateStoreType: loadDataIceberg
   isProfilingEnabled: false
   updateStrategy: Overwrite
-  tableName: msil_transformed_layer.Parts_and_Accessories_Digital_Sales_Report
-  warehousePath: s3://dlp-platform-engine-bucket/
+  tableName: msil_dataverse_marketing_and_sales_catalog.Parts_and_Accessories_Digital_Sales_Report
+  warehousePath: s3://msil-dataverse-marketing-and-sales/
   catalogName: glue
   optional:
     persistDataFrame: false
@@ -108,7 +68,7 @@ productState:
       printSchema: true
       count: true
       showData: true
-  refreshInterval: 0 10 * * *
+  refreshInterval: 0 12 * * *
 transformation:
   - alias: MSGA
     type: SQL
@@ -190,12 +150,12 @@ transformation:
     references:
       - alias: Dealer_Master_1
         sqlReference: dealer_master
-      - alias: Geography_Master_1
-        sqlReference: geography_master
       - alias: Accessories_Sales_1
         sqlReference: accessories_sales
       - alias: Parts_Accessories_Master_1
         sqlReference: parts_accessories_master
+      - alias: Geography_Master_1
+        sqlReference: geography_master
   - alias: MSGP
     type: SQL
     description: MSGP query
@@ -297,10 +257,10 @@ transformation:
         sqlReference: PARTS_SALES
       - alias: Dealer_Master_1
         sqlReference: Dealer_Master
-      - alias: Geography_Master_1
-        sqlReference: geography_master
       - alias: Parts_Accessories_Master_1
         sqlReference: parts_accessories_master
+      - alias: Geography_Master_1
+        sqlReference: geography_master
   - alias: msga_msgp_union
     type: SQL
     description: msga and msgp union query
