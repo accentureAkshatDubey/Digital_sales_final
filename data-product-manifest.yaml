@@ -1,4 +1,4 @@
-version: 0.0.31
+version: 0.0.32
 jobId: "787"
 jobName: Parts_and_Accessories_Digital_Sales_Report
 jobType: Aggregated Data Product
@@ -51,7 +51,109 @@ productState:
   alias: Ingesting_data_into_digital_sales
   retentionVersions: ""
   logicalSchema:
-    properties: {}
+    properties:
+      Enquiry_Number:
+        type: STRING
+        description: Enquiry_Number
+      Enquiry_Date:
+        type: DATETIME
+        description: Enquiry_Date
+      Source_of_Enquiry:
+        type: STRING
+        description: Source_of_Enquiry
+      Mode_of_Enquiry:
+        type: STRING
+        description: Mode_of_Enquiry
+      Enq_Customer_Name:
+        type: STRING
+        description: Enq_Customer_Name
+      Region:
+        type: STRING
+        description: Region
+      State:
+        type: STRING
+        description: State
+      City:
+        type: STRING
+        description: City
+      Dealer_name:
+        type: STRING
+        description: Dealer_name
+      Dealer_Code:
+        type: STRING
+        description: Dealer_Code
+      FOR_Code:
+        type: STRING
+        description: FOR_Code
+      Part_Number_Enquired:
+        type: STRING
+        description: Part_Number_Enquired
+      Product_Category_Code:
+        type: STRING
+        description: Product_Category_Code
+      Remarks:
+        type: STRING
+        description: Remarks
+      Date_of_Sale:
+        type: DATETIME
+        description: Date_of_Sale
+      Invoice_Number:
+        type: STRING
+        description: Invoice_Number
+      Next_Follow_up_Date:
+        type: DATETIME
+        description: Next_Follow_up_Date
+      Assigned_To_Line_Wise_Status:
+        type: STRING
+        description: Assigned_To_Line_Wise_Status
+      Next_Followup_Plan:
+        type: STRING
+        description: Next_Followup_Plan
+      Part_Description:
+        type: STRING
+        description: Part_Description
+      Quantity:
+        type: STRING
+        description: Quantity
+      Model:
+        type: STRING
+        description: Model
+      Location_Code:
+        type: STRING
+        description: Location_Code
+      Next_Followup_Action:
+        type: STRING
+        description: Next_Followup_Action
+      Order_Readiness_Date:
+        type: DATETIME
+        description: Order_Readiness_Date
+      Parts_First_Followup_Date:
+        type: DATETIME
+        description: Parts_First_Followup_Date
+      location_description:
+        type: STRING
+        description: location_description
+      No_of_Enquiry:
+        type: STRING
+        description: No_of_Enquiry
+      Header_status:
+        type: STRING
+        description: Header_status
+      Value_of_Enquiry_at_MRP:
+        type: STRING
+        description: Value_of_Enquiry_at_MRP
+      Value_of_Enquiry_at_DDL:
+        type: STRING
+        description: Value_of_Enquiry_at_DDL
+      Value_of_Sale_at_MRP:
+        type: STRING
+        description: Value_of_Sale_at_MRP
+      Value_of_Sale_at_DDL:
+        type: STRING
+        description: Value_of_Sale_at_DDL
+      Flag:
+        type: STRING
+        description: Flag
   stateStoreType: loadDataIceberg
   isProfilingEnabled: false
   updateStrategy: Overwrite
