@@ -1,4 +1,4 @@
-version: 0.0.32
+version: 0.0.33
 jobId: "787"
 jobName: Parts_and_Accessories_Digital_Sales_Report
 jobType: Aggregated Data Product
@@ -52,6 +52,11 @@ productState:
   retentionVersions: ""
   logicalSchema:
     properties:
+      columnname:
+        type: STRING
+        description: Description
+        sourceColumn: source column
+        sourceTable: source table
       Enquiry_Number:
         type: STRING
         description: Enquiry_Number
