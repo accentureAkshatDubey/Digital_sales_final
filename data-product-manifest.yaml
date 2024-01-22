@@ -1,4 +1,4 @@
-version: 0.0.33
+version: 0.0.34
 jobId: "787"
 jobName: Parts_and_Accessories_Digital_Sales_Report
 jobType: Aggregated Data Product
@@ -52,113 +52,176 @@ productState:
   retentionVersions: ""
   logicalSchema:
     properties:
-      columnname:
-        type: STRING
-        description: Description
-        sourceColumn: source column
-        sourceTable: source table
       Enquiry_Number:
         type: STRING
-        description: Enquiry_Number
+        description: Enquiry Number
+        sourceColumn: Enquiry_Number
+        sourceTable: Accessories_sales,Part_sales
       Enquiry_Date:
         type: DATETIME
-        description: Enquiry_Date
+        description: Enquiry Date
+        sourceColumn: Enquiry_Date
+        sourceTable: Accessories_sales,Part_sales
       Source_of_Enquiry:
         type: STRING
-        description: Source_of_Enquiry
+        description: Source of Enquiry
+        sourceColumn: Source_of_Enquiry
+        sourceTable: Accessories_sales,Part_sales
       Mode_of_Enquiry:
         type: STRING
-        description: Mode_of_Enquiry
+        description: Mode of Enquiry
+        sourceColumn: Mode_of_Enquiry
+        sourceTable: Accessories_sales,Part_sales
       Enq_Customer_Name:
         type: STRING
-        description: Enq_Customer_Name
+        description: Enquiry Customer Name
+        sourceColumn: Enq_Customer_Name
+        sourceTable: Accessories_sales,Part_sales
       Region:
         type: STRING
         description: Region
+        sourceColumn: Region
+        sourceTable: Geography_master
       State:
         type: STRING
         description: State
+        sourceColumn: State
+        sourceTable: Geography_master
       City:
         type: STRING
         description: City
+        sourceColumn: City
+        sourceTable: Accessories_sales,Part_sales
       Dealer_name:
         type: STRING
-        description: Dealer_name
+        description: Dealer name
+        sourceColumn: Dealer_name
+        sourceTable: Dealer_master
       Dealer_Code:
         type: STRING
-        description: Dealer_Code
+        description: Dealer Code
+        sourceColumn: Dealer_Code
+        sourceTable: Dealer_master
       FOR_Code:
         type: STRING
-        description: FOR_Code
+        description: FOR Code
+        sourceColumn: FOR_Code
+        sourceTable: Dealer_master
       Part_Number_Enquired:
         type: STRING
-        description: Part_Number_Enquired
+        description: Part Number Enquired
+        sourceColumn: Part_Number
+        sourceTable: Parts_and_accessories_master
       Product_Category_Code:
         type: STRING
-        description: Product_Category_Code
+        description: Product Category Code
+        sourceColumn: Part_Category
+        sourceTable: Parts_and_accessories_master,Accessories_sales
       Remarks:
         type: STRING
         description: Remarks
+        sourceColumn: customer_remarks
+        sourceTable: Accessories_sales,Part_sales
       Date_of_Sale:
         type: DATETIME
-        description: Date_of_Sale
+        description: Date of Sale
+        sourceColumn: " "
+        sourceTable: " "
       Invoice_Number:
         type: STRING
-        description: Invoice_Number
+        description: Invoice Number
+        sourceColumn: Invoice_Number
+        sourceTable: Accessories_sales,Part_sales
       Next_Follow_up_Date:
         type: DATETIME
-        description: Next_Follow_up_Date
+        description: Next Follow up Date
+        sourceColumn: " "
+        sourceTable: " "
       Assigned_To_Line_Wise_Status:
         type: STRING
-        description: Assigned_To_Line_Wise_Status
+        description: Assigned To Line Wise Status
+        sourceColumn: status
+        sourceTable: Accessories_sales,Part_sales
       Next_Followup_Plan:
         type: STRING
-        description: Next_Followup_Plan
+        description: Next Followup Plan
+        sourceColumn: Next_Followup_Plan
+        sourceTable: Accessories_sales
       Part_Description:
         type: STRING
-        description: Part_Description
+        description: Part Description
+        sourceColumn: source column
+        sourceTable: Parts_and_accessories_master
       Quantity:
         type: STRING
         description: Quantity
+        sourceColumn: part_quantity
+        sourceTable: Accessories_sales,Part_sales
       Model:
         type: STRING
         description: Model
+        sourceColumn: " "
+        sourceTable: " "
       Location_Code:
         type: STRING
-        description: Location_Code
+        description: Location Code
+        sourceColumn: Location_Code
+        sourceTable: Accessories_sales,Dealer_master
       Next_Followup_Action:
         type: STRING
-        description: Next_Followup_Action
+        description: Next Followup Action
+        sourceColumn: " "
+        sourceTable: " "
       Order_Readiness_Date:
         type: DATETIME
-        description: Order_Readiness_Date
+        description: Order Readiness Date
+        sourceColumn: enquiry_orderreadiness_date
+        sourceTable: Accessories_sales
       Parts_First_Followup_Date:
         type: DATETIME
         description: Parts_First_Followup_Date
+        sourceColumn: Parts_First_Followup_Date
+        sourceTable: Accessories_sales
       location_description:
         type: STRING
         description: location_description
+        sourceColumn: location_description
+        sourceTable: Dealer_master
       No_of_Enquiry:
         type: STRING
         description: No_of_Enquiry
+        sourceColumn: " "
+        sourceTable: " "
       Header_status:
         type: STRING
-        description: Header_status
+        description: list description
+        sourceColumn: list_description
+        sourceTable: Accessories_sales
       Value_of_Enquiry_at_MRP:
         type: STRING
-        description: Value_of_Enquiry_at_MRP
+        description: Value of Enquiry at MRP
+        sourceColumn: MRP_1
+        sourceTable: Parts_and_accessories_master
       Value_of_Enquiry_at_DDL:
         type: STRING
-        description: Value_of_Enquiry_at_DDL
+        description: Value of Enquiry at DDL
+        sourceColumn: " "
+        sourceTable: " "
       Value_of_Sale_at_MRP:
         type: STRING
-        description: Value_of_Sale_at_MRP
+        description: Value of Sale at MRP
+        sourceColumn: ITEM_VALUE
+        sourceTable: Accessories_sales
       Value_of_Sale_at_DDL:
         type: STRING
-        description: Value_of_Sale_at_DDL
+        description: Value of Sale at DDL
+        sourceColumn: " "
+        sourceTable: " "
       Flag:
         type: STRING
         description: Flag
+        sourceColumn: Flag
+        sourceTable: " "
   stateStoreType: loadDataIceberg
   isProfilingEnabled: false
   updateStrategy: Overwrite
