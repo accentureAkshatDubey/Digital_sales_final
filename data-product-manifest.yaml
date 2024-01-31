@@ -1,10 +1,10 @@
-version: 0.0.34
+version: 0.0.35
 jobId: "787"
-jobName: Parts_and_Accessories_Digital_Sales_Report
+jobName: Parts and Accessories Digital Sales Report
 jobType: Aggregated Data Product
 alias: Ingesting_data_into_digital_sales
 discoveryPort:
-  name: Parts_and_Accessories_Digital_Sales_Report
+  name: Parts and Accessories Digital Sales Report
 inputPorts:
   - alias: Dealer_Master_1
     isDynamic: true
@@ -484,4 +484,6 @@ controlPort:
 outputPort:
   subscriptionChannels:
     - channelType: Postgres
+      queryType: SQL
+    - channelType: Dataproduct
       queryType: SQL
