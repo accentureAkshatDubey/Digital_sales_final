@@ -1,4 +1,4 @@
-version: 0.0.35
+version: 0.0.36
 jobId: "787"
 jobName: Parts and Accessories Digital Sales Report
 jobType: Aggregated Data Product
@@ -289,12 +289,13 @@ transformation:
       (select distinct Part_Number,
       Part_Description,MRP,parent_group,dealer_map_code,location_code from
       parts_accessories_master where Part_Category<>'U' and PRINCIPAL_MAP_Code =
-      1) pam on acc.Part_Number_pd_enq = pam.Part_Number    and
-      acc.Parent_Group_ph_enq = pam.parent_group and acc.Dealer_Map_Code_ph_enq
-      = pam.dealer_map_code and acc.Location_Code_ph_enq =
-      pam.location_code       left JOIN (SELECT distinct * FROM Dealer_Master
-      WHERE PARENT_GROUP<>'99999' AND DEALER_MAP_CODE<>99999 AND
-      LOCATION_CODE<>'999' AND PRINCIPAL_MAP_CD = 1) DM on
+      1 AND FLAG = 'Digital Sales') pam on acc.Part_Number_pd_enq =
+      pam.Part_Number    and acc.Parent_Group_ph_enq = pam.parent_group and
+      acc.Dealer_Map_Code_ph_enq = pam.dealer_map_code and
+      acc.Location_Code_ph_enq = pam.location_code       left JOIN (SELECT
+      distinct * FROM Dealer_Master WHERE PARENT_GROUP<>'99999' AND
+      DEALER_MAP_CODE<>99999 AND LOCATION_CODE<>'999' AND PRINCIPAL_MAP_CD = 1)
+      DM on
       concat(         acc.Parent_Group_ph_enq,          '|',          cast(           \
       acc.Dealer_Map_Code_ph_enq as
       string         ),          '|',          acc.Location_Code_ph_enq       )=
@@ -396,11 +397,11 @@ transformation:
       ode,            Dealer_Map_Code
       ,           location_code         from            parts_accessories_maste\
       r          where            Part_Category <> 'U'            and
-      Principal_Map_Code = 1        ) pam on trim(ps.Part_Number_pd_issue) =
-      trim(pam.Part_Number) and ps.Parent_Group_ph_enq = pam.parent_group and
-      ps.Dealer_Map_Code_ph_enq = pam.dealer_map_code and
-      ps.Location_Code_ph_enq = pam.location_code       left JOIN
-      (         SELECT            DISTINCT
+      Principal_Map_Code = 1  and flag = 'Digital Sales'      ) pam on
+      trim(ps.Part_Number_pd_issue) = trim(pam.Part_Number) and
+      ps.Parent_Group_ph_enq = pam.parent_group and ps.Dealer_Map_Code_ph_enq =
+      pam.dealer_map_code and ps.Location_Code_ph_enq =
+      pam.location_code       left JOIN (         SELECT            DISTINCT
       *          FROM            Dealer_Master          WHERE            PARENT\
       _GROUP <> '99999'            AND DEALER_MAP_CODE <> 99999            AND
       LOCATION_CODE <> '999'            AND PRINCIPAL_MAP_CD = 1       ) DM on
