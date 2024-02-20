@@ -1,4 +1,4 @@
-version: 0.0.36
+version: 0.0.37
 jobId: "787"
 jobName: Parts and Accessories Digital Sales Report
 jobType: Aggregated Data Product
@@ -446,7 +446,9 @@ transformation:
       Parts_First_Followup_Date, location_description, '' as No_of_Enquiry,
       list_description as Header_status, MRP_1 as Value_of_Enquiry_at_MRP, 0.0
       as Value_of_Enquiry_at_DDL, ITEM_VALUE as Value_of_Sale_at_MRP, 0.0 as
-      Value_of_Sale_at_DDL, Flag from ( select    0.0 as
+      Value_of_Sale_at_DDL, Flag,current_timestamp() as etl_inserted_date,
+      current_timestamp() as etl_modified_date, 'platform_admin' as
+      etl_created_by, 'platform_admin' as etl_updated_by from ( select    0.0 as
       NET_RETAIL_SELLING,    0.0 as INVOICE_AMOUNT,    0.0
       NET_RETAIL_QUANTITY,    MRP_1,    ITEM_VALUE,    source_of_enquiry,    mode_of_enquiry,    invoice_number,    CUSTOMER_NAME
       as Enq_Customer_Name,    '' as CUST_ORD_DATE,    part_number,    '' as
