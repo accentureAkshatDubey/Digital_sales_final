@@ -1,7 +1,8 @@
-version: 0.0.37
+version: 0.0.38
 jobId: "787"
 jobName: Parts and Accessories Digital Sales Report
 jobType: Aggregated Data Product
+domain: marketing_and_sales
 alias: Ingesting_data_into_digital_sales
 discoveryPort:
   name: Parts and Accessories Digital Sales Report
@@ -238,11 +239,21 @@ productState:
       printSchema: true
       count: true
       showData: true
-  refreshInterval: 0 12 * * *
+  refreshInterval: 30 5 * * *
 transformation:
-  - alias: MSGA
-    type: SQL
+  - isDynamic: true
+    alias: MSGA
     description: tranformation logic for MSGA
+    sequence: 5
+    inputDataFrameList:
+      - inputDataFrame: Dealer_Master_1
+        tempViewName: dealer_master
+      - inputDataFrame: Accessories_Sales_1
+        tempViewName: accessories_sales
+      - inputDataFrame: Parts_Accessories_Master_1
+        tempViewName: parts_accessories_master
+      - inputDataFrame: Geography_Master_1
+        tempViewName: geography_master
     query: "select SUM(MRP) AS MRP_1,    SUM(ITEM_VALUE) AS
       ITEM_VALUE,   location_description,   region_code,   state_code,   status\
       ,   enq_status,   city,   category_description,   list_description,   enq\
@@ -317,19 +328,22 @@ transformation:
       e,   part_number,   PART_DESCRIPTION,   part_quantity,   part_category,   \
       etl_inserted_date,    etl_modified_date,    etl_created_by,    etl_update\
       d_by "
-    sequenceNo: 5
-    references:
-      - alias: Dealer_Master_1
-        sqlReference: dealer_master
-      - alias: Accessories_Sales_1
-        sqlReference: accessories_sales
-      - alias: Parts_Accessories_Master_1
-        sqlReference: parts_accessories_master
-      - alias: Geography_Master_1
-        sqlReference: geography_master
-  - alias: MSGP
-    type: SQL
+    optional:
+      persistDataFrame: false
+    type: operationThroughSqlQuery
+  - isDynamic: true
+    alias: MSGP
     description: MSGP query
+    sequence: 7
+    inputDataFrameList:
+      - inputDataFrame: Parts_Sales_1
+        tempViewName: PARTS_SALES
+      - inputDataFrame: Dealer_Master_1
+        tempViewName: Dealer_Master
+      - inputDataFrame: Parts_Accessories_Master_1
+        tempViewName: parts_accessories_master
+      - inputDataFrame: Geography_Master_1
+        tempViewName: geography_master
     query: "select    SUM(     Billed_Quantity * Selling_Price -(Selling_Price *
       Return_Quantity)   ) AS NET_RETAIL_SELLING,    SUM(     ITEM_VALUE
       -(       Return_Quantity *(ITEM_VALUE / Billed_Quantity)     )   ) as
@@ -422,19 +436,18 @@ transformation:
       number,    Company_FA,    Document_type,    Document_number,    Reference\
       _Document_Number,    Parts_LMS_Date,    Document_Date,   etl_inserted_dat\
       e,    etl_modified_date,    etl_created_by,    etl_updated_by "
-    sequenceNo: 7
-    references:
-      - alias: Parts_Sales_1
-        sqlReference: PARTS_SALES
-      - alias: Dealer_Master_1
-        sqlReference: Dealer_Master
-      - alias: Parts_Accessories_Master_1
-        sqlReference: parts_accessories_master
-      - alias: Geography_Master_1
-        sqlReference: geography_master
-  - alias: msga_msgp_union
-    type: SQL
+    optional:
+      persistDataFrame: false
+    type: operationThroughSqlQuery
+  - isDynamic: true
+    alias: msga_msgp_union
     description: msga and msgp union query
+    sequence: 8
+    inputDataFrameList:
+      - inputDataFrame: MSGA
+        tempViewName: MSGA
+      - inputDataFrame: MSGP
+        tempViewName: MSGP
     query: select  Enquiry_Number, Enquiry_Date, Source_of_Enquiry, Mode_of_Enquiry,
       Enq_Customer_Name, Region, State, City, Dealer_name, Dealer_Code,
       FOR_Code, part_number as Part_Number_Enquired, part_category as
@@ -471,12 +484,9 @@ transformation:
       enquiry_orderreadiness_date,    '' as
       link_part_enquiry,    parent_group,    Short_enquiry_number,    CUSTOMER_STATE,    customer_remarks,    for_code,    dealer_code,    invoice_date,    0
       as part_quantity,    'MSGP' as Flag  from    msgp   )
-    sequenceNo: 8
-    references:
-      - alias: MSGA
-        sqlReference: MSGA
-      - alias: MSGP
-        sqlReference: MSGP
+    optional:
+      persistDataFrame: false
+    type: operationThroughSqlQuery
 controlPort:
   dataQualityRules:
     RecordCountCheck:
